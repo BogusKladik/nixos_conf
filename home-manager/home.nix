@@ -51,9 +51,9 @@ in {
         "close,minimize,maximize:appmenu";
       "org/gnome/desktop/interface".gtk-theme = "Adwaita-dark";
       "org/gnome/settings-daemon/plugins/power".sleep-inactive-ac-type = "nothing";
-      "org/gnome/settings-daemon/plugins/color".night-light-enabled = "true";
-      "org/gnome/settings-daemon/plugins/color".night-light-schedule-automatic = "true";
-      "org/gnome/desktop/peripherals/mouse".natural-scroll = "true";
+      "org/gnome/settings-daemon/plugins/color".night-light-enabled = true;
+      "org/gnome/settings-daemon/plugins/color".night-light-schedule-automatic = true;
+      "org/gnome/desktop/peripherals/mouse".natural-scroll = true;
     };
   };
 
