@@ -40,20 +40,37 @@ in {
   dconf = {
     enable = true;
     settings = {
-      "org/gnome/desktop/interface".color-scheme = "prefer-dark";
-      "org/gnome/desktop/interface".font-name = "Roboto Condensed 11";
-      "org/gnome/desktop/interface".document-font-name = "Roboto Condensed 11";
-      "org/gnome/desktop/interface".monospace-font-name =
-        "JetBrainsMono Nerd Font 10";
-      "org/gnome/desktop/wm/preferences".titlebar-font =
-        "Roboto Condensed Bold 11";
-      "org/gnome/desktop/wm/preferences".button-layout =
-        "close,minimize,maximize:appmenu";
+      "org/gnome/desktop/interface" = {
+        color-scheme = "prefer-dark";
+        font-name = "Roboto Condensed 11";
+        document-font-name = "Roboto Condensed 11";
+        monospace-font-name = "JetBrainsMono Nerd Font 10";
+      };
+      "org/gnome/desktop/wm/preferences" = {
+        titlebar-font = "Roboto Condensed Bold 11";
+        button-layout = "close,minimize,maximize:appmenu";
+      };
       "org/gnome/desktop/interface".gtk-theme = "Adwaita-dark";
-      "org/gnome/settings-daemon/plugins/power".sleep-inactive-ac-type = "nothing";
-      "org/gnome/settings-daemon/plugins/color".night-light-enabled = true;
-      "org/gnome/settings-daemon/plugins/color".night-light-schedule-automatic = true;
+      "org/gnome/settings-daemon/plugins/power".sleep-inactive-ac-type =
+        "nothing";
+      "org/gnome/settings-daemon/plugins/color" = {
+        night-light-enabled = true;
+        night-light-schedule-automatic = true;
+      };
       "org/gnome/desktop/peripherals/mouse".natural-scroll = true;
+      "org/gnome/mutter".edge-tiling = true;
+      "org/gnome/shell".enabled-extensions = [
+        "appindicatorsupport@rgcjonas.gmail.com"
+        "blur-my-shell@aunetx"
+        "Vitals@CoreCoding.com"
+        "status-area-horizontal-spacing@mathematical.coffee.gmail.com"
+      ];
+
+      "org/gnome/shell/extensions/blur-my-shell" = {
+        color-and-noise = false;
+        sigma = 0;
+        brightness = 0.6;
+      };
     };
   };
 
@@ -76,11 +93,15 @@ in {
 
   home.packages = with pkgs; [
     # wpsoffice
-    # gnome-extension-manager
-    # gnomeExtensions.blur-my-shell
+    gnome-extension-manager
+    gnomeExtensions.appindicator
+    gnomeExtensions.blur-my-shell
+    gnomeExtensions.vitals
+    gnomeExtensions.status-area-horizontal-spacing
     # gnomeExtensions.control-blur-effect-on-lock-screen
 
     discord
+    # webcord
     unstable.obsidian
     onlyoffice-bin
     unstable.postman
