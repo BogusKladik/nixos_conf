@@ -1,7 +1,7 @@
 { outputs, pkgs, lib, ... }:
 
 let plugins = (import ./vscode_plugins.nix) { inherit pkgs lib; };
-in {
+in rec {
   home.username = "boguskladik";
   home.homeDirectory = "/home/boguskladik";
 
@@ -65,11 +65,21 @@ in {
         "Vitals@CoreCoding.com"
         "status-area-horizontal-spacing@mathematical.coffee.gmail.com"
       ];
-
       "org/gnome/shell/extensions/blur-my-shell" = {
         color-and-noise = false;
         sigma = 0;
         brightness = 0.6;
+      };
+      "org/gnome/desktop/background" = {
+        picture-uri = "${home.homeDirectory}/.background";
+        picture-uri-dark = "${home.homeDirectory}/.background";
+        color-shading-type = "solid";
+        picture-options = "zoom";
+      };
+      "org/gnome/desktop/screensaver" = {
+        color-shading-type = "solid";
+        picture-options = "zoom";
+        picture-uri = "${home.homeDirectory}/.background";
       };
     };
   };
@@ -152,6 +162,7 @@ in {
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
   home.file = {
+    ".background".source = ../resources/wp1.png;
     # # Building this configuration will create a copy of 'dotfiles/screenrc' in
     # # the Nix store. Activating the configuration will then make '~/.screenrc' a
     # # symlink to the Nix store copy.
