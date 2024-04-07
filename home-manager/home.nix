@@ -16,25 +16,27 @@ in rec {
 
   programs.vscode = {
     enable = true;
-    enableUpdateCheck = false;
-    enableExtensionUpdateCheck = false;
-    extensions = [
-      plugins.jnoortheen.nix-ide
-      plugins.rust-lang.rust-analyzer
-      plugins.arrterian.nix-env-selector
-      plugins.tamasfe.even-better-toml
-      plugins.equinusocio.vsc-material-theme
-      plugins.pkief.material-icon-theme
-      plugins.nerg.clips-lang
-    ];
-    userSettings = {
-      "nix.enableLanguageServer" = true;
-      "nix.serverPath" = "nil";
-      "workbench.colorTheme" = "Material Theme Darker High Contrast";
-      "workbench.iconTheme" = "material-icon-theme";
-      "rust-analyzer.check.command" = "clippy";
+    package = pkgs.vscode.fhs;
+    enableUpdateCheck = true; # false
+    enableExtensionUpdateCheck = true; # false
+    mutableExtensionsDir = true; # false
+    # extensions = [
+    #   plugins.jnoortheen.nix-ide
+    #   plugins.rust-lang.rust-analyzer
+    #   plugins.arrterian.nix-env-selector
+    #   plugins.tamasfe.even-better-toml
+    #   plugins.equinusocio.vsc-material-theme
+    #   plugins.pkief.material-icon-theme
+    #   plugins.nerg.clips-lang
+    # ];
+    # userSettings = {
+    #   "nix.enableLanguageServer" = true;
+    #   "nix.serverPath" = "nil";
+    #   "workbench.colorTheme" = "Material Theme Darker High Contrast";
+    #   "workbench.iconTheme" = "material-icon-theme";
+    #   "rust-analyzer.check.command" = "clippy";
       # "rust-analyzer.cargo.sysroot" = "${pkgs.rustc}/lib/rustlib/rustc-src/";
-    };
+    # };
   };
 
   dconf = {
@@ -56,6 +58,7 @@ in rec {
       "org/gnome/settings-daemon/plugins/color" = {
         night-light-enabled = true;
         night-light-schedule-automatic = true;
+        night-light-temperature = lib.hm.gvariant.mkUint32 3700;
       };
       "org/gnome/desktop/peripherals/mouse".natural-scroll = true;
       "org/gnome/mutter".edge-tiling = true;
@@ -70,6 +73,21 @@ in rec {
         sigma = 0;
         brightness = 0.6;
       };
+      "org/gnome/shell/extensions/blur-my-shell/overview" = {
+        blur = true;
+        style-components = 3;
+        sigma = 44;
+        brightness = 0.54;
+      };
+      "org/gnome/shell/extensions/blur-my-shell/appfolder".blur = false;
+      "org/gnome/shell/extensions/blur-my-shell/applications".blur = false;
+      "org/gnome/shell/extensions/blur-my-shell/lockscreen" = {
+        blur = true;
+        customize = true;
+        sigma = 11;
+        brightness = 0.6;
+      };
+      "org/gnome/shell/extensions/blur-my-shell/screenshot".blur = true;
       "org/gnome/desktop/background" = {
         picture-uri = "${home.homeDirectory}/.background";
         picture-uri-dark = "${home.homeDirectory}/.background";
