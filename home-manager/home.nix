@@ -67,6 +67,7 @@ in rec {
         "blur-my-shell@aunetx"
         "Vitals@CoreCoding.com"
         "status-area-horizontal-spacing@mathematical.coffee.gmail.com"
+        "runcat@kolesnikov.se"
       ];
       "org/gnome/shell/extensions/blur-my-shell" = {
         color-and-noise = false;
@@ -93,6 +94,10 @@ in rec {
         picture-uri-dark = "${home.homeDirectory}/.background";
         color-shading-type = "solid";
         picture-options = "zoom";
+      };
+      "org/gnome/shell/extensions/runcat" = {
+        displaying-items = "character-and-percentage";
+        idle-threshold = 11;
       };
       "org/gnome/desktop/screensaver" = {
         color-shading-type = "solid";
