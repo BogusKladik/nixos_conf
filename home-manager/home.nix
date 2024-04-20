@@ -68,7 +68,9 @@ in rec {
         "Vitals@CoreCoding.com"
         "status-area-horizontal-spacing@mathematical.coffee.gmail.com"
         "runcat@kolesnikov.se"
+        "top-bar-organizer@julian.gse.jsts.xyz"
       ];
+      "org/gnome/shell".disabled-extensions = [];
       "org/gnome/shell/extensions/blur-my-shell" = {
         color-and-noise = false;
         sigma = 0;
@@ -89,15 +91,29 @@ in rec {
         brightness = 0.6;
       };
       "org/gnome/shell/extensions/blur-my-shell/screenshot".blur = true;
+      "org/gnome/shell/extensions/runcat" = {
+        displaying-items = "character-and-percentage";
+        idle-threshold = 11;
+      };
+      "org/gnome/shell/extensions/top-bar-organizer" = {
+        left-box-order = [ "activities" ];
+        center-box-order = [ "dateMenu" ];
+        right-box-order = [
+          "runcat-indicator"
+          "vitalsMenu"
+          "screenRecording"
+          "screenSharing"
+          "dwellClick"
+          "a11y"
+          "keyboard" 
+          "quickSettings"
+        ];
+      };
       "org/gnome/desktop/background" = {
         picture-uri = "${home.homeDirectory}/.background";
         picture-uri-dark = "${home.homeDirectory}/.background";
         color-shading-type = "solid";
         picture-options = "zoom";
-      };
-      "org/gnome/shell/extensions/runcat" = {
-        displaying-items = "character-and-percentage";
-        idle-threshold = 11;
       };
       "org/gnome/desktop/screensaver" = {
         color-shading-type = "solid";
@@ -131,6 +147,8 @@ in rec {
     gnomeExtensions.blur-my-shell
     gnomeExtensions.vitals
     gnomeExtensions.status-area-horizontal-spacing
+    gnomeExtensions.runcat
+    gnomeExtensions.top-bar-organizer
     # gnomeExtensions.control-blur-effect-on-lock-screen
 
     discord
@@ -142,7 +160,7 @@ in rec {
     # jetbrains.jdk
     jdk
     maven
-    unstable.yandex-browser
+    # unstable.yandex-browser
     google-chrome
     gnome.dconf-editor
     roboto
@@ -220,4 +238,3 @@ in rec {
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 }
-
