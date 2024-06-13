@@ -4,42 +4,62 @@
 { config, lib, pkgs, modulesPath, ... }:
 
 {
-  imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
+  imports =
+    [ (modulesPath + "/installer/scan/not-detected.nix")
+    ];
 
-  boot.initrd.availableKernelModules =
-    [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
+  boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
 
-  fileSystems."/" = {
-    device = "/dev/disk/by-uuid/9169f2f1-e015-4f6a-93c9-70b3cb0aa8c3";
-    fsType = "btrfs";
-    options = [ "subvol=@" ];
-  };
+  fileSystems."/" =
+    { device = "/dev/disk/by-uuid/7c335f17-e144-4069-8dfa-738cd0c9a8b1";
+      fsType = "btrfs";
+      options = [ "subvol=@" ];
+    };
 
-  fileSystems."/home" = {
-    device = "/dev/disk/by-uuid/9169f2f1-e015-4f6a-93c9-70b3cb0aa8c3";
-    fsType = "btrfs";
-    options = [ "subvol=@home" ];
-  };
+  fileSystems."/home" =
+    { device = "/dev/disk/by-uuid/7c335f17-e144-4069-8dfa-738cd0c9a8b1";
+      fsType = "btrfs";
+      options = [ "subvol=@home" ];
+    };
 
-  fileSystems."/var/log" = {
-    device = "/dev/disk/by-uuid/9169f2f1-e015-4f6a-93c9-70b3cb0aa8c3";
-    fsType = "btrfs";
-    options = [ "subvol=@log" ];
-  };
+  fileSystems."/var/log" =
+    { device = "/dev/disk/by-uuid/7c335f17-e144-4069-8dfa-738cd0c9a8b1";
+      fsType = "btrfs";
+      options = [ "subvol=@log" ];
+    };
 
-  fileSystems."/.snapshots" = {
-    device = "/dev/disk/by-uuid/9169f2f1-e015-4f6a-93c9-70b3cb0aa8c3";
-    fsType = "btrfs";
-    options = [ "subvol=@snapshots" ];
-  };
+  fileSystems."/nix/store" =
+    { device = "/dev/disk/by-uuid/7c335f17-e144-4069-8dfa-738cd0c9a8b1";
+      fsType = "btrfs";
+      options = [ "subvol=@npkg" ];
+    };
 
-  fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/1C09-1D4E";
-    fsType = "vfat";
-  };
+  fileSystems."/var/tmp" =
+    { device = "/dev/disk/by-uuid/7c335f17-e144-4069-8dfa-738cd0c9a8b1";
+      fsType = "btrfs";
+      options = [ "subvol=@tmp" ];
+    };
+
+  fileSystems."/.snapshots" =
+    { device = "/dev/disk/by-uuid/7c335f17-e144-4069-8dfa-738cd0c9a8b1";
+      fsType = "btrfs";
+      options = [ "subvol=@.snapshots" ];
+    };
+
+  fileSystems."/swapfile" =
+    { device = "/dev/disk/by-uuid/7c335f17-e144-4069-8dfa-738cd0c9a8b1";
+      fsType = "btrfs";
+      options = [ "subvol=@swapfile" ];
+    };
+
+  fileSystems."/boot" =
+    { device = "/dev/disk/by-uuid/BE04-550A";
+      fsType = "vfat";
+      options = [ "fmask=0077" "dmask=0077" ];
+    };
 
   swapDevices = [ ];
 
@@ -51,6 +71,5 @@
   # networking.interfaces.enp42s0.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  hardware.cpu.amd.updateMicrocode =
-    lib.mkDefault config.hardware.enableRedistributableFirmware;
+  hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }

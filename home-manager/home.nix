@@ -53,6 +53,18 @@ in rec {
         button-layout = "close,minimize,maximize:appmenu";
       };
       "org/gnome/desktop/interface".gtk-theme = "Adwaita-dark";
+      "org/gnome/desktop/peripherals/mouse".accel-profile = "flat";
+      "org/gnome/desktop/peripherals/mouse".speed = 0.0;
+      "org/gnome/shell".favorite-apps = [
+      "google-chrome.desktop"
+      "discord.desktop" 
+      "org.telegram.desktop.desktop"
+      "org.gnome.Console.desktop"
+      "org.gnome.Nautilus.desktop"
+      "code.desktop"
+      "obsidian.desktop"
+      "org.gnome.TextEditor.desktop"
+      ];
       "org/gnome/settings-daemon/plugins/power".sleep-inactive-ac-type =
         "nothing";
       "org/gnome/settings-daemon/plugins/color" = {
@@ -62,6 +74,7 @@ in rec {
       };
       "org/gnome/desktop/peripherals/mouse".natural-scroll = true;
       "org/gnome/mutter".edge-tiling = true;
+      "org/gnome/desktop/sound".event-sounds = true;
       "org/gnome/shell".enabled-extensions = [
         "appindicatorsupport@rgcjonas.gmail.com"
         "blur-my-shell@aunetx"
@@ -78,6 +91,7 @@ in rec {
       };
       "org/gnome/shell/extensions/blur-my-shell/overview" = {
         blur = true;
+        customize = true;
         style-components = 3;
         sigma = 44;
         brightness = 0.54;
@@ -138,7 +152,7 @@ in rec {
   # You should not change this value, even if you update Home Manager. If you do
   # want to update the value, then make sure to first check the Home Manager
   # release notes.
-  home.stateVersion = "23.11"; # Please read the comment before changing.
+  home.stateVersion = "24.05"; # Please read the comment before changing.
 
   home.packages = with pkgs; [
     # wpsoffice
@@ -152,15 +166,20 @@ in rec {
     # gnomeExtensions.control-blur-effect-on-lock-screen
 
     discord
+    skypeforlinux
     # webcord
-    unstable.obsidian
+    # unstable.obsidian
     onlyoffice-bin
     unstable.postman
     pgadmin4-desktopmode
     # jetbrains.jdk
     jdk
     maven
-    # unstable.yandex-browser
+    
+    # nodejs_21
+    # typescript
+    yarn
+    # yandex-browser
     google-chrome
     gnome.dconf-editor
     roboto
@@ -168,7 +187,7 @@ in rec {
 
     # unstable.uwufetch
 
-    minecraft
+    # minecraft
 
     # this is incorrect for declorative but its work, need check work in shell.nix
     unstable.rustup
@@ -182,7 +201,7 @@ in rec {
     swiProlog
 
     nil
-    nixfmt
+    nixfmt-classic
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
@@ -205,6 +224,7 @@ in rec {
   # plain files is through 'home.file'.
   home.file = {
     ".background".source = ../resources/nix-Wallpaper.png;
+    ".avatar".source = ../resources/boguskladik.png;
     # # Building this configuration will create a copy of 'dotfiles/screenrc' in
     # # the Nix store. Activating the configuration will then make '~/.screenrc' a
     # # symlink to the Nix store copy.

@@ -146,8 +146,8 @@
   };
 
   # Autologin
-  services.xserver.displayManager.autoLogin.enable = true;
-  services.xserver.displayManager.autoLogin.user = "boguskladik";
+  services.displayManager.autoLogin.enable = true;
+  services.displayManager.autoLogin.user = "boguskladik";
 
   # For autologin work correct
   systemd.services."getty@tty1".enable = false;
@@ -215,7 +215,7 @@
   # and migrated your data accordingly.
   #
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
-  system.stateVersion = "23.11"; # Did you read the comment?
+  system.stateVersion = "24.05"; # Did you read the comment?
 
 }
 
