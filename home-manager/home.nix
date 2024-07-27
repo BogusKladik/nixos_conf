@@ -164,19 +164,30 @@ in rec {
     gnomeExtensions.runcat
     gnomeExtensions.top-bar-organizer
     # gnomeExtensions.control-blur-effect-on-lock-screen
+	
+    # For test sound of micro
+    usbutils
+    pavucontrol
+    powertop
+
+    drawing
+
+    easyeffects
 
     discord
+    vesktop
     skypeforlinux
     # webcord
     # unstable.obsidian
     onlyoffice-bin
+
     unstable.postman
     pgadmin4-desktopmode
     # jetbrains.jdk
     jdk
     maven
     
-    # nodejs_21
+    nodejs_22
     # typescript
     yarn
     # yandex-browser

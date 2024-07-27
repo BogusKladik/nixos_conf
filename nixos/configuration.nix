@@ -2,7 +2,7 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ outputs, config, pkgs, ... }:
+{ outputs, config, pkgs, lib, ... }:
 
 {
   imports = [ # Include the results of the hardware scan.
@@ -59,7 +59,15 @@
     forceFullCompositionPipeline = true;
 
     # Optionally, you may need to select the appropriate driver version for your specific GPU.
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
+    # package = config.boot.kernelPackages.nvidiaPackages.stable;
+    package = config.boot.kernelPackages.nvidiaPackages.mkDriver { 
+      version = "555.58.02"; 
+      sha256_64bit = "sha256-xctt4TPRlOJ6r5S54h5W6PT6/3Zy2R4ASNFPu8TSHKM=";
+      sha256_aarch64 = lib.fakeSha256; 
+      openSha256 = lib.fakeSha256;
+      settingsSha256 = "sha256-ZpuVZybW6CFN/gz9rx+UJvQ715FZnAOYfHn5jt5Z2C8=";
+      persistencedSha256 = lib.fakeSha256;
+    };
   };
 
   networking.hostName = "NixOS-PC"; # Define your hostname.
@@ -92,7 +100,7 @@
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
 
-  environment.sessionVariables.NIXOS_OZONE_WL = "1";
+  # environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -114,6 +122,28 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
+    wireplumber = {
+      enable = true;
+      extraConfig = {
+        alsa = {
+          "monitor.alsa.rules" = [
+            {
+              matches = [
+                { "node.name" = "alsa_card.*"; }
+              ];
+              actions = {
+                update-props = {
+                  "api.alsa.use-acp" = true;
+                  "api.alsa.use-ucm" = true;
+                  "audio.format" = "S16LE";
+                  "audio.rate" = 48000;
+                };
+              };
+            }
+          ];
+        };
+      };
+    };
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
@@ -169,11 +199,12 @@
   };
 
 
-  # programs.steam = {
-  #   enable = true;
-  #   remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
-  #   dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
-  # };
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
+    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
+    localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
