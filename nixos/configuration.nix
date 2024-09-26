@@ -54,18 +54,19 @@
 
     # Enable the Nvidia settings menu,
     # accessible via `nvidia-settings`.
-    nvidiaSettings = true;
+    nvidiaSettings = false;
 
     forceFullCompositionPipeline = true;
 
     # Optionally, you may need to select the appropriate driver version for your specific GPU.
     # package = config.boot.kernelPackages.nvidiaPackages.stable;
-    package = config.boot.kernelPackages.nvidiaPackages.mkDriver { 
-      version = "555.58.02"; 
-      sha256_64bit = "sha256-xctt4TPRlOJ6r5S54h5W6PT6/3Zy2R4ASNFPu8TSHKM=";
-      sha256_aarch64 = lib.fakeSha256; 
+    # lib.fakeSha256
+    package = config.boot.kernelPackages.nvidiaPackages.mkDriver {
+      version = "560.35.03"; 
+      sha256_64bit = "sha256-8pMskvrdQ8WyNBvkU/xPc/CtcYXCa7ekP73oGuKfH+M=";
+      sha256_aarch64 = lib.fakeSha256;
       openSha256 = lib.fakeSha256;
-      settingsSha256 = "sha256-ZpuVZybW6CFN/gz9rx+UJvQ715FZnAOYfHn5jt5Z2C8=";
+      settingsSha256 = "sha256-kQsvDgnxis9ANFmwIwB7HX5MkIAcpEEAHc8IBOLdXvk=";
       persistencedSha256 = lib.fakeSha256;
     };
   };
@@ -174,6 +175,8 @@
       #    tree
     ];
   };
+  
+  programs.gamemode.enable = true;
 
   # Autologin
   services.displayManager.autoLogin.enable = true;
