@@ -1,45 +1,45 @@
 {
-  description = "A simple NixOS flake";
-
-  nixConfig = { };
+  description = "NixOS PC — modular flake";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+
     home-manager = {
-      url = "github:nix-community/home-manager/release-24.05";
+      url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    #nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
   };
 
   outputs = { self, nixpkgs, home-manager, ... }@inputs:
     let
-      inherit (self) outputs;
       system = "x86_64-linux";
+      myOverlays = import ./overlays { inherit inputs; };
     in {
-      overlays = import ./overlays { inherit inputs; };
-
       nixosConfigurations.NixOS-PC = nixpkgs.lib.nixosSystem {
+        inherit system;
         modules = [
           ./nixos/configuration.nix
           home-manager.nixosModules.home-manager
           {
-            _module.args = { inherit inputs outputs; };
-
-            nix.settings.trusted-users = [ "root" "boguskladik" ];
-
             nix.settings = {
+              experimental-features = [ "nix-command" "flakes" ];
+              auto-optimise-store = true;
+              trusted-users = [ "root" "boguskladik" ];
               substituters = [ "https://cache.nixos.org" ];
+            };
 
-              trusted-public-keys = [ ];
+            nixpkgs = {
+              overlays = with myOverlays; [ unstable-packages ];
+              config.allowUnfree = true;
             };
 
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
 
             home-manager.users.boguskladik = import ./home-manager/home.nix;
-            home-manager.extraSpecialArgs = { inherit inputs outputs; };
+
+            # home-manager.extraSpecialArgs = { };
           }
         ];
       };
